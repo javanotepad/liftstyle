@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "611206411902",
+    "project_id": "lifestyle-fcae0",
+    "storage_bucket": "lifestyle-fcae0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611206411902:android:71bfbbefa82f09d679ca2f",
+        "android_client_info": {
+          "package_name": "com.health.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611206411902-vti6q6b9kdnt96h7krfd3eqm97g42stf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEGNL0ovZKbJuU3hbfiRpkkoIeSi2S8Mg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611206411902-vti6q6b9kdnt96h7krfd3eqm97g42stf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611206411902:android:5e46aa6f15cf9a7e79ca2f",
+        "android_client_info": {
+          "package_name": "com.lifestyle.liftstyle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611206411902-vti6q6b9kdnt96h7krfd3eqm97g42stf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEGNL0ovZKbJuU3hbfiRpkkoIeSi2S8Mg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611206411902-vti6q6b9kdnt96h7krfd3eqm97g42stf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
