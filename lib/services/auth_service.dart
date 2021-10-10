@@ -1,25 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class AuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-  /*void registerToFb() {
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.reference().child("Users");
+  void registerToFb(String name, String email, String pass, String age) {
+    print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
     firebaseAuth
-        .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
+        .createUserWithEmailAndPassword(email: email, password: pass)
         .then((result) {
-      dbRef.child(result.user.uid).set({
-        "email": emailController.text,
-        "age": ageController.text,
-        "name": nameController.text
-      }).then((res) {
-        Navigator.pushReplacement(
+      dbRef
+          .child(result.user!.uid)
+          .set({"email": email, "age": age, "name": name}).then((res) {
+        print("Added");
+        /*Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
-        );
+        );*/
       });
     }).catchError((err) {
-      showDialog(
+      print(err);
+      /*  showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -34,7 +36,7 @@ class AuthService {
                 )
               ],
             );
-          });
+          });*/
     });
-  }*/
+  }
 }

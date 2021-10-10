@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User result = FirebaseAuth.instance.currentUser;
+    User? result = FirebaseAuth.instance.currentUser;
     return SplashScreen(
         seconds: 5,
         navigateAfterSeconds:

@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -11,12 +12,14 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpScreen> {
+  final AuthService _auth = AuthService();
   Gender? _gender = Gender.Female;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _mail = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final TextEditingController _age = TextEditingController();
+  final TextEditingController _name = TextEditingController();
 
   Widget _buildGenderRD() {
     return Column(
@@ -99,6 +102,43 @@ class _SignUpState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Age',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFullNameTF(TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Full Name',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            controller: controller,
+            validator: (val) => (!val!.isEmpty ? null : "Full name is empty"),
+            keyboardType: TextInputType.text,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.account_box,
+                color: Colors.white,
+              ),
+              hintText: 'Enter your Name',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -247,7 +287,16 @@ class _SignUpState extends State<SignUpScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => {this._form.currentState!.validate()},
+        onPressed: () => {
+          if (this._form.currentState!.validate())
+            {
+              this._auth.registerToFb(
+                  this._name.text.toString(),
+                  this._mail.text.toString(),
+                  _pass.text.toString(),
+                  _age.text.toString())
+            }
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -381,6 +430,8 @@ class _SignUpState extends State<SignUpScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          SizedBox(height: 30),
+                          _buildFullNameTF(_name),
                           SizedBox(height: 30.0),
                           _buildEmailTF(_mail),
                           SizedBox(
