@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liftstyle/screens/signupScreen.dart';
+import 'package:liftstyle/models/vmodel/loginUserModel.dart';
+import 'package:liftstyle/screens/authentication/signupScreen.dart';
+import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  final AuthService _auth = AuthService();
 
   Widget _buildEmailTF() {
     return Column(
@@ -128,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () {
+          loginPressed();
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -312,5 +317,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  loginPressed() async {
+    var item = await _auth.loginUser(loginUserModel("Ahmed", "099588"));
+    print("email : " + item!.email + " -- psd : " + item!.password);
   }
 }

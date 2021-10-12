@@ -1,10 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:liftstyle/models/vmodel/loginUserModel.dart';
 
 class AuthService {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   DatabaseReference dbRef =
       FirebaseDatabase.instance.reference().child("Users");
+  Future<loginUserModel?> loginUser(loginUserModel loginModel) async {
+    var loginResult = await firebaseAuth.signInWithEmailAndPassword(
+        email: loginModel.email, password: loginModel.password);
+    if (loginResult.user != null) {
+      print("User ID:" + loginResult.user!.uid.toString());
+      return loginModel;
+    }
+    return null;
+  }
+
   void registerToFb(String name, String email, String pass, String age) {
     print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
     firebaseAuth
