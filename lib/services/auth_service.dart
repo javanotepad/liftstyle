@@ -17,10 +17,12 @@ class AuthService {
     }
   }
 
+  // check the user if it is still logged in
   Stream<loginModel> get user {
     return firebaseAuth.authStateChanges().map((u) => _loggedInUser(u));
   }
 
+  //login user
   Future<loginModel?> loginUser(loginModel model) async {
     print("Proccessing from Login Fun:\nEmail:" +
         (model.email ?? 'EMPTY!') +
@@ -39,6 +41,15 @@ class AuthService {
     return null;
   }
 
+  Future signOut() async {
+    try {
+      return await this.firebaseAuth.signOut();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //register a new users
   void registerToFb(String name, String email, String pass, String age) {
     print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
     firebaseAuth
@@ -55,22 +66,6 @@ class AuthService {
       });
     }).catchError((err) {
       print(err);
-      /*  showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text(err.message),
-              actions: [
-                TextButton(
-                  child: Text("Ok"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          });*/
     });
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+final logoutTxt = Text("Logout",
+    style: TextStyle(color: Colors.black, fontFamily: 'OpenSans'));
+
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
   fontFamily: 'OpenSans',
