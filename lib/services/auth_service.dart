@@ -1,17 +1,40 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:liftstyle/models/vmodel/loginUserModel.dart';
+import 'package:flutter/material.dart';
+import 'package:liftstyle/models/vmodel/login_user_model.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   DatabaseReference dbRef =
       FirebaseDatabase.instance.reference().child("Users");
-  Future<loginUserModel?> loginUser(loginUserModel loginModel) async {
-    var loginResult = await firebaseAuth.signInWithEmailAndPassword(
-        email: loginModel.email, password: loginModel.password);
-    if (loginResult.user != null) {
-      print("User ID:" + loginResult.user!.uid.toString());
-      return loginModel;
+
+  loginModel _loggedInUser(User? user) {
+    if (user != null) {
+      return loginModel.loginResponse(user.uid, user.email);
+    } else {
+      return loginModel.error("EMPTY USER");
+    }
+  }
+
+  Stream<loginModel> get user {
+    return firebaseAuth.authStateChanges().map((u) => _loggedInUser(u));
+  }
+
+  Future<loginModel?> loginUser(loginModel model) async {
+    print("Proccessing from Login Fun:\nEmail:" +
+        (model.email ?? 'EMPTY!') +
+        "\n" +
+        (model.password ?? 'EMPTY!'));
+    try {
+      var loginResult = await firebaseAuth.signInWithEmailAndPassword(
+          email: model.email!, password: model.password!);
+      if (loginResult.user != null) {
+        print("User ID:" + loginResult.user!.uid.toString());
+        return _loggedInUser(loginResult.user);
+      }
+    } on FirebaseAuthException catch (e) {
+      return loginModel.error(e.message.toString());
     }
     return null;
   }

@@ -1,6 +1,7 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liftstyle/models/vmodel/loginUserModel.dart';
+import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/screens/authentication/signupScreen.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
@@ -13,8 +14,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   final AuthService _auth = AuthService();
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
-  Widget _buildEmailTF() {
+  Widget _buildEmailTF(TextEditingController _controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -27,7 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
+            controller: _controller,
+            validator: (val) => EmailValidator.validate(val)
+                ? null
+                : "Please Enter Valid Email!",
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -49,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPasswordTF() {
+  Widget _buildPasswordTF(TextEditingController _controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -62,7 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
+            controller: _controller,
+            validator: (val) {
+              if (val!.isEmpty) return 'Empty';
+              return null;
+            },
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -131,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
+        onPressed: () async {
           loginPressed();
         },
         padding: EdgeInsets.all(15.0),
@@ -252,75 +265,97 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
+    return Form(
+        key: _form,
+        child: Scaffold(
+          body: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.light,
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF73AEF5),
+                          Color(0xFF61A4F1),
+                          Color(0xFF478DE0),
+                          Color(0xFF398AE5),
+                        ],
+                        stops: [0.1, 0.4, 0.7, 0.9],
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    height: double.infinity,
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40.0,
+                        vertical: 120.0,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Sign In',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'OpenSans',
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 30.0),
+                          _buildEmailTF(this._email),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          _buildPasswordTF(this._pass),
+                          _buildForgotPasswordBtn(),
+                          _buildRememberMeCheckbox(),
+                          _buildLoginBtn(),
+                          _buildSignInWithText(),
+                          _buildSocialBtnRow(),
+                          _buildSignupBtn(),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                    ],
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   loginPressed() async {
-    var item = await _auth.loginUser(loginUserModel("Ahmed", "099588"));
-    print("email : " + item!.email + " -- psd : " + item!.password);
+    if (this._form.currentState!.validate()) {
+      print("Proccessing" +
+          "\nEmail:" +
+          this._email.text.toString().trim() +
+          "\n" +
+          this._pass.text.toString().trim());
+
+      var item = await _auth.loginUser(loginModel.loginRequest(
+        this._email.text.toString().trim(),
+        this._pass.text.toString().trim(),
+      ));
+      if (item!.msg!.isNotEmpty) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                title: Text(' Ops! Login Failed'),
+                content: Text('${item.msg}')));
+      }
+      print("email : " + item.email! + " -- psd : " + item.password!);
+    } else {
+      print("Not Valid");
+    }
   }
 }
