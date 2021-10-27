@@ -3,11 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
+import 'package:liftstyle/services/database_service.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  DatabaseReference dbRef =
-      FirebaseDatabase.instance.reference().child("Users");
 
   loginModel _loggedInUser(User? user) {
     if (user != null) {
@@ -54,16 +53,13 @@ class AuthService {
     print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
     firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: pass)
-        .then((result) {
-      dbRef
-          .child(result.user!.uid)
-          .set({"email": email, "age": age, "name": name}).then((res) {
-        print("Added");
-        /*Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
-        );*/
-      });
+        .then((result) async {
+      var user = _loggedInUser(result.user);
+      user.Gender = true;
+      user.Age = int.parse(age);
+      user.FullName = name;
+      await DatabaseService(uid: result.user!.uid).updateUserProfile(user);
+      print("Added");
     }).catchError((err) {
       print(err);
     });
