@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
-import 'package:liftstyle/screens/authentication/signupScreen.dart';
+import 'package:liftstyle/screens/shared/authentication/signupScreen.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 

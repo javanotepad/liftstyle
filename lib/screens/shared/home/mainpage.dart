@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
-import 'package:liftstyle/screens/authentication/loginScreen.dart';
+import 'package:liftstyle/screens/shared/authentication/loginScreen.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 import 'package:provider/provider.dart';

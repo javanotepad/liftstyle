@@ -4,8 +4,8 @@ import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-import 'authentication/loginScreen.dart';
-import 'home/mainpage.dart';
+import 'shared/authentication/loginScreen.dart';
+import 'shared/home/mainpage.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);
