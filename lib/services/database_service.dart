@@ -7,8 +7,7 @@ class DatabaseService {
 
   final CollectionReference userDetails =
       FirebaseFirestore.instance.collection("userProfile");
-  final CollectionReference productsCollection =
-      FirebaseFirestore.instance.collection("products");
+
   Future updateUserProfile(loginModel user) async {
     return await this.userDetails.doc(uid).set({
       'age': user.Age,
@@ -17,7 +16,5 @@ class DatabaseService {
     });
   }
 
-  Stream<QuerySnapshot> get products {
-    return productsCollection.snapshots();
-  }
+
 }

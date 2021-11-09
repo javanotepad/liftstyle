@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
+import 'package:liftstyle/models/vmodel/product.dart';
 import 'package:liftstyle/screens/shared/authentication/loginScreen.dart';
+import 'package:liftstyle/screens/shared/home/productListView.dart';
 import 'package:liftstyle/services/auth_service.dart';
+import 'package:liftstyle/services/products_services.dart';
 import 'package:liftstyle/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -19,25 +23,22 @@ class _UserMainPageState extends State<UserMainPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<loginModel>(context);
+
     if (user.uid == null) {
       return LoginScreen();
     } else {
-      return Scaffold(
-        drawer: NavDrawer(),
-        appBar: AppBar(
-          title: Text('Side menu'),
-          actions: <Widget>[
-            FlatButton.icon(
-              onPressed: () async {
-                await _authService.signOut();
-              },
-              icon: Icon(Icons.person),
-              label: logoutTxt,
-            )
-          ],
-        ),
-        body: Center(
-          child: Text('Side Menu Tutorial'),
+      return StreamProvider<List<product>>.value(
+        value: ProductService().products,
+        //  initialData: ProductService().products,
+        initialData: [],
+        child: Scaffold(
+          body: Column(
+            children: [
+              Container(
+                child: Text("HOME"),
+              ),
+            ],
+          ),
         ),
       );
     }

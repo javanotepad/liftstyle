@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       initialData: loginModel.error("Not Logged In"),
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),
     );
