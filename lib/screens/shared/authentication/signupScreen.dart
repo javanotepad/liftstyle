@@ -162,7 +162,7 @@ class _SignUpState extends State<SignUpScreen> {
           height: 60.0,
           child: TextFormField(
             controller: controller,
-            validator: (val) => EmailValidator.validate(val)
+            validator: (val) => EmailValidator.validate(val!)
                 ? null
                 : "Please Enter Valid Email!",
             keyboardType: TextInputType.emailAddress,

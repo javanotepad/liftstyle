@@ -35,7 +35,13 @@ class _UserMainPageState extends State<UserMainPage> {
           body: Column(
             children: [
               Container(
+                  child: Center(
                 child: Text("HOME"),
+              )),
+              Container(
+                child: Center(
+                  child: Text("oiooo"),
+                ),
               ),
             ],
           ),

@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextFormField(
             controller: _controller,
-            validator: (val) => EmailValidator.validate(val)
+            validator: (val) => EmailValidator.validate(val!)
                 ? null
                 : "Please Enter Valid Email!",
             keyboardType: TextInputType.emailAddress,

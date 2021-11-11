@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:provider/provider.dart';
-import 'package:splashscreen/splashscreen.dart';
-
+import 'package:splash_screen_view/SplashScreenView.dart';
 import 'shared/authentication/loginScreen.dart';
 import 'shared/home/mainpage.dart';
 
@@ -15,19 +13,23 @@ class Wrapper extends StatelessWidget {
     // User? result = FirebaseAuth.instance.currentUser;
     final user = Provider.of<loginModel>(context);
 
-    return SplashScreen(
-        seconds: 5,
-        navigateAfterSeconds:
-            user.uid != null ? const UserMainPage("Welcome..") : LoginScreen(),
-        title: const Text(
-          'Welcome To LifeStyle App!',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-        ),
-        backgroundColor: Colors.white,
-        styleTextUnderTheLoader: const TextStyle(),
-        photoSize: 100.0,
-        //onClick: () => print("flutter"),
-        loaderColor: Colors.blue);
-    return Container();
+    return SplashScreenView(
+      duration: 4000,
+      text: 'Welcome To LifeStyle App!',
+      textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+      navigateRoute: navigateRoute(user),
+      colors: [
+        Colors.purple,
+        Colors.blue,
+        Colors.yellow,
+        Colors.red,
+      ],
+      backgroundColor: Colors.white,
+    );
+
+    //  return Container();
   }
+
+  StatefulWidget navigateRoute(loginModel user) =>
+      user.uid != null ? const UserMainPage("Welcome..") : LoginScreen();
 }
