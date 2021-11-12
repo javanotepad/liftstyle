@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/screens/shared/authentication/signupScreen.dart';
+import 'package:liftstyle/screens/shared/home/mainpage.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
@@ -346,14 +347,23 @@ class _LoginScreenState extends State<LoginScreen> {
         this._email.text.toString().trim(),
         this._pass.text.toString().trim(),
       ));
-      if (item!.msg!.isNotEmpty) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                title: Text(' Ops! Login Failed'),
-                content: Text('${item.msg}')));
+      if (item != null) {
+        if (item.msg != null) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                  title: Text(' Ops! Login Failed'),
+                  content: Text('${item.msg}')));
+        }
+        if (item.uid != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserMainPage("Home")),
+          );
+        }
       }
-      print("email : " + item.email! + " -- psd : " + item.password!);
+
+      // print("email : " + item.email! + " -- psd : " + item.password!);
     } else {
       print("Not Valid");
     }

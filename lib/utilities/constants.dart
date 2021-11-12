@@ -28,3 +28,10 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final regularDarkText =
+    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black);
+const IconData logout = IconData(0xe3b3, fontFamily: 'MaterialIcons');
+const IconData bookmark = IconData(0xe0f1, fontFamily: 'MaterialIcons');
+const IconData search = IconData(0xf4a5, fontFamily: 'MaterialIcons');
+const IconData home = IconData(0xe318, fontFamily: 'MaterialIcons');

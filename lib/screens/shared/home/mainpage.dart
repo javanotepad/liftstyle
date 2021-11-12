@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/models/vmodel/product.dart';
 import 'package:liftstyle/screens/shared/authentication/loginScreen.dart';
-import 'package:liftstyle/screens/shared/home/productListView.dart';
+import 'package:liftstyle/screens/widgets/bottom_tabs.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/services/products_services.dart';
 import 'package:liftstyle/utilities/constants.dart';
@@ -20,6 +20,24 @@ class UserMainPage extends StatefulWidget {
 
 class _UserMainPageState extends State<UserMainPage> {
   final AuthService _authService = AuthService();
+  final PageController _pageController = PageController();
+
+  //late PageController _tabsPageController;
+  int _selectedTab = 0;
+/*
+  @override
+  void initState() {
+    _tabsPageController = PageController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabsPageController.dispose();
+    super.dispose();
+  }
+*/
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<loginModel>(context);
@@ -38,13 +56,14 @@ class _UserMainPageState extends State<UserMainPage> {
                   child: Center(
                 child: Text("HOME"),
               )),
-              Container(
-                child: Center(
-                  child: Text("oiooo"),
+              Center(
+                child: Container(
+                  child: Text("BOTTOM"),
                 ),
-              ),
+              )
             ],
           ),
+          bottomNavigationBar: BottomTabs(),
         ),
       );
     }
