@@ -9,6 +9,16 @@ class ProductListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Text("");
+    /*  return ListView(
+      padding: EdgeInsets.only(
+        top: 108.0,
+        bottom: 12.0,
+      ),
+      children: [],
+    )
+
+
     return Padding(
       padding: EdgeInsets.only(top: 9.0),
       child: Card(
@@ -21,6 +31,6 @@ class ProductListRow extends StatelessWidget {
           title: Text(item.prdname.toString()),
         ),
       ),
-    );
+    );*/
   }
 }

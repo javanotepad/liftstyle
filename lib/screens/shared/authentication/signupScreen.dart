@@ -19,6 +19,8 @@ class _SignUpState extends State<SignUpScreen> {
   final TextEditingController _mail = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final TextEditingController _age = TextEditingController();
+  final TextEditingController _length = TextEditingController();
+  final TextEditingController _weight = TextEditingController();
   final TextEditingController _name = TextEditingController();
 
   Widget _buildGenderRD() {
@@ -81,7 +83,7 @@ class _SignUpState extends State<SignUpScreen> {
             keyboardType: TextInputType.number,
             // obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             controller: controller,
@@ -99,9 +101,100 @@ class _SignUpState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.add_rounded,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Age',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildlengthTF(TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Length',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.number,
+            // obscureText: true,
+            style: TextStyle(
+              color: Colors.deepPurple,
+              fontFamily: 'OpenSans',
+            ),
+            controller: controller,
+            validator: (val) {
+              if (val!.isEmpty)
+                return 'Empty';
+              else {
+                if (int.parse(val) < 100)
+                  return 'Should be greater than 100 cm';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.add_rounded,
+                color: Colors.deepPurple,
+              ),
+              hintText: 'Enter your length in cm',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWeightTF(TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Weight',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.number,
+            // obscureText: true,
+            style: TextStyle(
+              color: Colors.deepPurple,
+              fontFamily: 'OpenSans',
+            ),
+            controller: controller,
+            validator: (val) {
+              if (val!.isEmpty)
+                return 'Empty';
+              else {
+                if (int.parse(val) < 18) return 'Should be greater than 20 kg';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.add_rounded,
+                color: Colors.deepPurple,
+              ),
+              hintText: 'Enter your length in cm',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -128,7 +221,7 @@ class _SignUpState extends State<SignUpScreen> {
             validator: (val) => (!val!.isEmpty ? null : "Full name is empty"),
             keyboardType: TextInputType.text,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -136,7 +229,7 @@ class _SignUpState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.account_box,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Name',
               hintStyle: kHintTextStyle,
@@ -167,7 +260,7 @@ class _SignUpState extends State<SignUpScreen> {
                 : "Please Enter Valid Email!",
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -175,7 +268,7 @@ class _SignUpState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
@@ -202,7 +295,7 @@ class _SignUpState extends State<SignUpScreen> {
           child: TextFormField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             controller: controller,
@@ -215,7 +308,7 @@ class _SignUpState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -248,7 +341,7 @@ class _SignUpState extends State<SignUpScreen> {
             },
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -256,7 +349,7 @@ class _SignUpState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Rewrite your Password',
               hintStyle: kHintTextStyle,
@@ -290,22 +383,34 @@ class _SignUpState extends State<SignUpScreen> {
         onPressed: () => {
           if (this._form.currentState!.validate())
             {
-              this._auth.registerToFb(
-                  this._name.text.toString(),
-                  this._mail.text.toString(),
-                  _pass.text.toString(),
-                  _age.text.toString())
+              this
+                  ._auth
+                  .registerToFb(
+                      this._name.text.toString(),
+                      this._mail.text.toString(),
+                      _pass.text.toString(),
+                      _age.text.toString(),
+                      int.parse(_length.text.toString()),
+                      int.parse(_weight.text.toString()),
+                      null,
+                      null,
+                      1)
+                  .then((value) => showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                          title: Text('Welcome to LifeStyle'),
+                          content: Text('Thank you, you can login now!'))))
             }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.white,
+        color: Colors.deepPurple,
         child: Text(
           'Sign Up',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -396,19 +501,7 @@ class _SignUpState extends State<SignUpScreen> {
                   Container(
                     height: double.infinity,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF73AEF5),
-                          Color(0xFF61A4F1),
-                          Color(0xFF478DE0),
-                          Color(0xFF398AE5),
-                        ],
-                        stops: [0.1, 0.4, 0.7, 0.9],
-                      ),
-                    ),
+                    decoration: BoxDecoration(),
                   ),
                   Container(
                     height: double.infinity,
@@ -421,10 +514,12 @@ class _SignUpState extends State<SignUpScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+                          Image(image: AssetImage('assets/images/img.png')),
+                          //   SizedBox(height: 30),
                           Text(
                             'Sign Up',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.deepPurple,
                               fontFamily: 'OpenSans',
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
@@ -443,12 +538,16 @@ class _SignUpState extends State<SignUpScreen> {
                           SizedBox(height: 30.0),
                           _buildAgeTF(_age),
                           SizedBox(height: 30.0),
+                          _buildlengthTF(_length),
+                          SizedBox(height: 30),
+                          _buildWeightTF(_weight),
+                          SizedBox(height: 30),
                           _buildGenderRD(),
                           SizedBox(height: 30.0),
-                          _buildForgotPasswordBtn(),
+                          //  _buildForgotPasswordBtn(),
                           _buildSignupBtn(),
                           // _buildSignInWithText(),
-                          _buildSocialBtnRow(),
+                          // _buildSocialBtnRow(),
                           //    _buildSignupBtn(),
                         ],
                       ),

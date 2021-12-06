@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
 class BottomTabs extends StatefulWidget {
+  const BottomTabs({Key? key}) : super(key: key);
+
   @override
   _State createState() => _State();
 }
 
 class _State extends State<BottomTabs> {
   int currentSelected = 0;
+
   @override
   void initState() {
     this.currentSelected = 0;

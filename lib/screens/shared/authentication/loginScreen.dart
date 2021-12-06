@@ -30,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.deepPurpleAccent, width: 1)),
           height: 60.0,
           child: TextFormField(
             controller: _controller,
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 : "Please Enter Valid Email!",
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
@@ -69,7 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.deepPurpleAccent, width: 1)),
           height: 60.0,
           child: TextFormField(
             controller: _controller,
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             },
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.deepPurple,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -87,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.deepPurple,
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -152,11 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.white,
+        color: Colors.deepPurpleAccent,
         child: Text(
           'LOGIN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -245,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextSpan(
               text: 'Don\'t have an Account? ',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.deepPurpleAccent,
                 fontSize: 18.0,
                 fontWeight: FontWeight.w400,
               ),
@@ -253,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextSpan(
               text: 'Sign Up',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.deepPurple,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -278,19 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     height: double.infinity,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF73AEF5),
-                          Color(0xFF61A4F1),
-                          Color(0xFF478DE0),
-                          Color(0xFF398AE5),
-                        ],
-                        stops: [0.1, 0.4, 0.7, 0.9],
-                      ),
-                    ),
+                    decoration: BoxDecoration(),
                   ),
                   Container(
                     height: double.infinity,
@@ -303,10 +293,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+                          Image(image: AssetImage('assets/images/img.png')),
                           Text(
                             'Sign In',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.deepPurple,
                               fontFamily: 'OpenSans',
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
@@ -319,10 +310,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           _buildPasswordTF(this._pass),
                           _buildForgotPasswordBtn(),
-                          _buildRememberMeCheckbox(),
+                          // _buildRememberMeCheckbox(),
                           _buildLoginBtn(),
-                          _buildSignInWithText(),
-                          _buildSocialBtnRow(),
+                          //  _buildSignInWithText(),
+                          //  _buildSocialBtnRow(),
                           _buildSignupBtn(),
                         ],
                       ),

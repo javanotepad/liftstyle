@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liftstyle/screens/shared/home/userProfile.dart';
 import 'package:liftstyle/services/auth_service.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -10,35 +11,24 @@ class NavDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text(
-              'Side menu',
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
             decoration: BoxDecoration(
-                color: Colors.indigo,
+                color: Colors.white,
                 image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/cover.jpg'))),
-          ),
-          ListTile(
-            leading: Icon(Icons.input),
-            title: Text('Welcome'),
-            onTap: () => {},
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    image: AssetImage('assets/images/img.png'))),
+            child: null,
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
             title: Text('Profile'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.border_color),
-            title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserProfile(),
+                  ))
+            },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),

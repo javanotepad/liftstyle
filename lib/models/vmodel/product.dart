@@ -1,5 +1,5 @@
 class product {
-  String? uid;
+  String? prdId;
   bool? isactive = true;
   bool? ispromoted = false;
   String? prddetails;
@@ -8,7 +8,7 @@ class product {
   double? prdprice = 0.0;
   int? prdqty = 0;
   product(
-      {this.uid,
+      {this.prdId,
       this.isactive,
       this.ispromoted,
       this.prddetails,
