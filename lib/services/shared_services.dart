@@ -34,6 +34,7 @@ class SharedServices {
       user_.bio = doc.get("bio").toString();
       user_.type = doc.get("type").toString();
       user_.isAdmin = doc.get("isAdmin");
+      user_.phone = doc.get("phone");
 
       return user_;
     }).toList();

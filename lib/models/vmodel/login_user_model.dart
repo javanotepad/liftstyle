@@ -16,6 +16,7 @@ class loginModel {
   bool? isAdmin;
   String? bio;
   String? type;
+  String? phone;
   loginModel();
 
   loginModel.loginResponse(this.uid, this.email, this.img);

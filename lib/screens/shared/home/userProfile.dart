@@ -170,6 +170,7 @@ class _State extends State<UserProfile> {
                   ),
                 CustomActionBar(
                   hasTitle: false,
+                  showAddButton: false,
                   title: "User Profile",
                   hasBackArrrow: true,
                   showCart: false,

@@ -28,6 +28,7 @@ class _State extends State<AddNewTrainer> {
   Gender? _gender = Gender.Female;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _bio = TextEditingController();
+  final TextEditingController _trainernumber = TextEditingController();
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
@@ -96,6 +97,8 @@ class _State extends State<AddNewTrainer> {
                           _buildGenderRD(),
                           SizedBox(height: 10),
                           _buildBioTF(_bio),
+                          SizedBox(height: 10),
+                          _buildTrainerNumber(_trainernumber),
                           SizedBox(height: 10),
                           //      _buildLengthTF(_length),
                           //    SizedBox(height: 10),
@@ -253,7 +256,7 @@ class _State extends State<AddNewTrainer> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          this
+          await this
               ._auth
               .registerToFb(
                   _name.text.toString(),
@@ -264,7 +267,8 @@ class _State extends State<AddNewTrainer> {
                   0,
                   _bio.text.toString(),
                   imgurl,
-                  2)
+                  2,
+                  _trainernumber.text.toString())
               .whenComplete(() => showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -372,6 +376,53 @@ class _State extends State<AddNewTrainer> {
                 color: Colors.deepPurple,
               ),
               hintText: 'Enter Trainer Bio',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTrainerNumber(TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'WhatsApp',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.deepPurpleAccent, width: 1)),
+          height: 60.0,
+          child: TextFormField(
+            maxLength: 9,
+            keyboardType: TextInputType.phone,
+            // obscureText: true,
+            style: TextStyle(
+              color: Colors.deepPurple,
+              fontFamily: 'OpenSans',
+            ),
+            controller: controller,
+            validator: (val) {
+              if (val!.isEmpty)
+                return 'Empty';
+              else {
+                if (val.length < 9) return 'Should be greater than 8 !';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.call,
+                color: Colors.deepPurple,
+              ),
+              hintText: '506123456',
               hintStyle: kHintTextStyle,
             ),
           ),

@@ -10,6 +10,7 @@ import 'package:liftstyle/utilities/constants.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   final CollectionReference userDetails =
       FirebaseFirestore.instance.collection("userProfile");
 
@@ -62,12 +63,21 @@ class AuthService {
   }
 
   //register a new users
-  Future registerToFb(String name, String email, String pass, String age,
-      int weight, int length, String? bio, String? img, int type) async {
+  Future registerToFb(
+      String name,
+      String email,
+      String pass,
+      String age,
+      int weight,
+      int length,
+      String? bio,
+      String? img,
+      int type,
+      String? phone) async {
     print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
 
-    FirebaseApp _app = await Firebase.initializeApp(
-        name: 'Secondary', options: Firebase.app().options);
+    FirebaseApp _app =
+        await Firebase.initializeApp(options: Firebase.app().options);
 
     FirebaseAuth firebaseAuth_ = await FirebaseAuth.instanceFor(app: _app);
     await firebaseAuth_
@@ -83,6 +93,7 @@ class AuthService {
       user.type = (type == 1 ? "customer" : Trainer);
       user.isAdmin = false;
       user.img = img;
+      user.phone = phone;
       // await UserService(uid: result.user!.uid).updateUserProfile(user);
       await updateUserProfile(user);
     });
@@ -101,7 +112,8 @@ class AuthService {
       'img': user.img,
       'bio': user.bio,
       'type': user.type,
-      'isAdmin': user.isAdmin
+      'isAdmin': user.isAdmin,
+      'phone': user.phone
     });
   }
 }

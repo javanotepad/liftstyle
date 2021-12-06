@@ -394,7 +394,8 @@ class _SignUpState extends State<SignUpScreen> {
                       int.parse(_weight.text.toString()),
                       null,
                       null,
-                      1)
+                      1,
+                      null)
                   .then((value) => showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(

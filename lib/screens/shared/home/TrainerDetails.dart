@@ -9,6 +9,7 @@ import 'package:liftstyle/services/cart_services.dart';
 import 'package:liftstyle/services/subscriptions.dart';
 import 'package:liftstyle/utilities/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TrainerDetails extends StatefulWidget {
   const TrainerDetails({Key? key, required this.Trainer}) : super(key: key);
@@ -73,6 +74,18 @@ class _State extends State<TrainerDetails> {
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0, right: 350),
+                  child: IconButton(
+                    icon: const Icon(Icons.call),
+                    color: Colors.green,
+                    tooltip: 'Contacting Trainer',
+                    onPressed: () async {
+                      await launch(
+                          "https://wa.me/${widget.Trainer.phone!}?text=Hello");
+                    },
                   ),
                 ),
                 Padding(
