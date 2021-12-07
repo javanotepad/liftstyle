@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liftstyle/screens/shared/authentication/loginScreen.dart';
 import 'package:liftstyle/screens/shared/home/userProfile.dart';
 import 'package:liftstyle/services/auth_service.dart';
 
@@ -34,11 +35,14 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () async {
-              await this._authService.signOut();
+              await this._authService.signOut().whenComplete(() => moveToLogin);
             },
           ),
         ],
       ),
     );
   }
+
+  void moveToLogin(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => LoginScreen()));
 }

@@ -59,7 +59,7 @@ class _State extends State<ProductDetails> {
                     horizontal: 24.0,
                   ),
                   child: Text(
-                    widget.Product.prdprice.toString(),
+                    widget.Product.prdprice.toString() + "  SR",
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Theme.of(context).accentColor,

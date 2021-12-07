@@ -1,13 +1,14 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:liftstyle/models/vmodel/cart.dart';
 import 'package:liftstyle/services/paypalServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaypalPayment extends StatefulWidget {
   final Function onFinish;
-
-  PaypalPayment({required this.onFinish});
+  final Cart cart;
+  PaypalPayment({required this.onFinish, required this.cart});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,7 +27,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
   // PaypalPaymentState({required this.totalAmount, required this.customerName});
   // you can change default currency according to your need
   Map<dynamic, dynamic> defaultCurrency = {
-    "symbol": "USD ",
+    "symbol": "SR ",
     "decimalDigits": 2,
     "symbolBeforeTheNumber": true,
     "currency": "USD"
@@ -78,28 +79,29 @@ class PaypalPaymentState extends State<PaypalPayment> {
   int quantity = 1;
 
   Map<String, dynamic> getOrderParams() {
-    List items = [
-      {
-        "name": itemName,
-        "quantity": quantity,
-        "price": itemPrice,
+    List items = [];
+    for (var i = 0; i < widget.cart.basketItems.length; i++) {
+      items.add({
+        "name": widget.cart.basketItems[i].title,
+        "quantity": 1,
+        "price": widget.cart.basketItems[i].price,
         "currency": defaultCurrency["currency"]
-      }
-    ];
+      });
+    }
 
     // checkout invoice details
-    String totalAmount = '1.99';
-    String subTotalAmount = '1.99';
+    String totalAmount = widget.cart.totalPrice.toString();
+    String subTotalAmount = widget.cart.totalPrice.toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
     String userFirstName = 'Gulshan';
     String userLastName = 'Yadav';
-    String addressCity = 'Delhi';
-    String addressStreet = 'Mathura Road';
+    String addressCity = 'KSA';
+    String addressStreet = 'KSA';
     String addressZipCode = '110014';
-    String addressCountry = 'India';
-    String addressState = 'Delhi';
-    String addressPhoneNumber = '+919990119091';
+    String addressCountry = 'KSA';
+    String addressState = 'KSA';
+    String addressPhoneNumber = '';
 
     Map<String, dynamic> temp = {
       "intent": "sale",
@@ -143,7 +145,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   @override
   Widget build(BuildContext context) {
-    print(checkoutUrl);
+    //  print("CHECK OUT URL" + checkoutUrl!);
 
     if (checkoutUrl != null) {
       return Scaffold(

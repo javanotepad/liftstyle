@@ -40,6 +40,23 @@ class SharedServices {
     }).toList();
   }
 
+  Future<loginModel> getUserById(String uid) async {
+    loginModel model = loginModel();
+    await this.userDetails.doc(uid).get().then((value) => () {
+          model.uid = value.id.toString();
+          model.img = value.get("img").toString();
+          model.length = int.parse(value.get("length").toString());
+          model.wight = int.parse(value.get("weight").toString());
+          model.Age = int.parse(value.get("age").toString());
+          model.FullName = value.get("fullName").toString();
+          model.bio = value.get("bio").toString();
+          model.type = value.get("type").toString();
+          model.isAdmin = value.get("isAdmin");
+          model.phone = value.get("phone");
+        });
+    return model;
+  }
+
   /* Future<loginModel> checkIsAdmin(String uid) async {
     loginModel model = loginModel();
     print("RECIVED USER ID =$uid");

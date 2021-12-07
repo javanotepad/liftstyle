@@ -17,24 +17,26 @@ class _SubscribtionListState extends State<SubscribtionList> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<loginModel>(context);
+    final users = Provider.of<List<loginModel>>(context);
+
     return Consumer<List<Subscription>>(builder: (context, subs, child) {
       print("ITEMS ==== " +
           subs
-              .where((element) => element.customerid == user.uid)
+              .where((element) => element.trainerid == user.uid)
               .length
               .toString());
       return Scaffold(
         body: Stack(children: [
           ListView(
-            padding: EdgeInsets.only(
-              top: 108.0,
-              bottom: 12.0,
-            ),
-            children: subs
-                .where((element) => element.customerid == user.uid)
-                .map((e) => PlanCard(item: e, index: subs.indexOf(e) + 1))
-                .toList(),
-          ),
+              padding: EdgeInsets.only(
+                top: 108.0,
+                bottom: 12.0,
+              ),
+              children: subs
+                  .where((element) => element.trainerid == user.uid)
+                  .map((e) => PlanCard(
+                      item: e, index: subs.indexOf(e) + 1, isTrainer: true))
+                  .toList()),
           CustomActionBar(
             hasBackArrrow: false,
             showAddButton: true,

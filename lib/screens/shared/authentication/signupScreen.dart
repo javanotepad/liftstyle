@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
+import 'loginScreen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -399,8 +401,14 @@ class _SignUpState extends State<SignUpScreen> {
                   .then((value) => showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
-                          title: Text('Welcome to LifeStyle'),
-                          content: Text('Thank you, you can login now!'))))
+                            title: Text('Welcome to LifeStyle'),
+                            content: Text('Thank you, you can login now!'),
+                          )).then((value) => moveToLogin(context)))
+                  .onError((error, stackTrace) => showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                          title: Text('Alert'),
+                          content: Text(error.toString()))))
             }
         },
         padding: EdgeInsets.all(15.0),
@@ -561,4 +569,7 @@ class _SignUpState extends State<SignUpScreen> {
         ));
     //  _form.currentState.validate();
   }
+
+  void moveToLogin(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => LoginScreen()));
 }

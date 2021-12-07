@@ -1,10 +1,15 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/Subscription.dart';
 import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/screens/widgets/custom_action_bar.dart';
 import 'package:liftstyle/screens/widgets/planCard.dart';
+import 'package:liftstyle/services/shared_services.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart';
 
 class PlansPage extends StatefulWidget {
   const PlansPage({Key? key}) : super(key: key);
@@ -14,6 +19,9 @@ class PlansPage extends StatefulWidget {
 }
 
 class _PlansPageState extends State<PlansPage> {
+  File? file;
+  String? uid;
+  String? fileurl;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<loginModel>(context);
@@ -32,7 +40,8 @@ class _PlansPageState extends State<PlansPage> {
             ),
             children: subs
                 .where((element) => element.customerid == user.uid)
-                .map((e) => PlanCard(item: e, index: subs.indexOf(e) + 1))
+                .map((e) => PlanCard(
+                    item: e, index: subs.indexOf(e) + 1, isTrainer: false))
                 .toList(),
           ),
           CustomActionBar(

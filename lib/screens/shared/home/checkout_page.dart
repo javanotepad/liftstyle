@@ -18,66 +18,67 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return Consumer<Cart>(
       builder: (context, cart, child) {
         return Scaffold(
-            body: cart.basketItems.length == 0
-                ? Text('no items in your cart')
-                : Stack(children: [
-                    ListView.builder(
-                      itemCount: cart.basketItems.length,
-                      padding: EdgeInsets.only(
-                        top: 108.0,
-                        bottom: 12.0,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            leading: Image.network(
-                              cart.basketItems[index].productimageurl,
-                              fit: BoxFit.cover,
-                            ),
-                            title: Text(cart.basketItems[index].title),
-                            subtitle:
-                                Text(cart.basketItems[index].price.toString()),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                cart.remove(cart.basketItems[index]);
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        await _checkOutAction(context);
-                        showOrderDialog("_orderId", context, cart);
-                      },
-                      child: Container(
-                        height: 78.0,
-                        margin: EdgeInsets.only(top: 758),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(1.0),
+            body: Stack(children: [
+          cart.basketItems.isNotEmpty
+              ? ListView.builder(
+                  itemCount: cart.basketItems.length,
+                  padding: EdgeInsets.only(
+                    top: 108.0,
+                    bottom: 12.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        leading: Image.network(
+                          cart.basketItems[index].productimageurl,
+                          fit: BoxFit.cover,
                         ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Checkout",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600),
+                        title: Text(cart.basketItems[index].title),
+                        subtitle:
+                            Text(cart.basketItems[index].price.toString()),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            cart.remove(cart.basketItems[index]);
+                          },
                         ),
                       ),
-                    ),
-                    CustomActionBar(
-                      hasTitle: true,
-                      title: "My Cart - Total Cost : " +
-                          cart.totalPrice.toString() +
-                          " R.S",
-                      hasBackground: true,
-                      showCart: false,
-                    ),
-                  ]));
+                    );
+                  },
+                )
+              : Center(child: Text("No Item Found!")),
+          if (cart.basketItems.isNotEmpty)
+            GestureDetector(
+              onTap: () async {
+                await _checkOutAction(context, cart);
+                showOrderDialog("_orderId", context, cart);
+              },
+              child: Container(
+                height: 78.0,
+                margin: EdgeInsets.only(top: 458),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(1.0),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "Checkout",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          CustomActionBar(
+            hasTitle: true,
+            showAddButton: false,
+            title:
+                "My Cart - Total Cost : " + cart.totalPrice.toString() + " R.S",
+            hasBackground: true,
+            showCart: false,
+          ),
+        ]));
       },
     );
   }
@@ -111,17 +112,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
     cart.removeAll();
   }
 
-  Future _checkOutAction(BuildContext context) async {
+  Future _checkOutAction(BuildContext context, Cart cart) async {
     String id = "";
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PaypalPayment(
+              cart: cart,
               onFinish: (number) {
                 // payment done
                 if (number != null) {
                   id = number;
-
                   print('order id: ' + id);
-
                   return number;
                 }
               },

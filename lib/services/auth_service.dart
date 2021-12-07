@@ -76,8 +76,9 @@ class AuthService {
       String? phone) async {
     print(name + ' - ' + email + ' - ' + pass + ' - ' + age);
 
-    FirebaseApp _app =
-        await Firebase.initializeApp(options: Firebase.app().options);
+    FirebaseApp _app = await Firebase.initializeApp(
+        options: Firebase.app().options,
+        name: new DateTime.now().millisecondsSinceEpoch.toString());
 
     FirebaseAuth firebaseAuth_ = await FirebaseAuth.instanceFor(app: _app);
     await firebaseAuth_

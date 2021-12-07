@@ -13,8 +13,9 @@ class Wrapper extends StatelessWidget {
     // User? result = FirebaseAuth.instance.currentUser;
     final user = Provider.of<loginModel>(context);
 
+    print("USER FORM SPLASH ___ " + user.toString());
     return SplashScreenView(
-      duration: 4000,
+      duration: 3000,
       text: 'Welcome To LifeStyle App!',
       textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       navigateRoute: navigateRoute(user),
@@ -31,5 +32,5 @@ class Wrapper extends StatelessWidget {
   }
 
   StatefulWidget navigateRoute(loginModel user) =>
-      user.uid != null ? const UserMainPage("Welcome..") : LoginScreen();
+      user != null ? const UserMainPage("Welcome..") : LoginScreen();
 }

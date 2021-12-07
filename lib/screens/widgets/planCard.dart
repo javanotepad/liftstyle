@@ -1,20 +1,54 @@
-import 'package:flutter/material.dart';
-import 'package:liftstyle/models/vmodel/Item.dart';
-import 'package:liftstyle/models/vmodel/Subscription.dart';
-import 'package:liftstyle/models/vmodel/cart.dart';
-import 'package:liftstyle/models/vmodel/product.dart';
-import 'package:liftstyle/screens/shared/home/productDetails.dart';
-import 'package:liftstyle/utilities/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
-class PlanCard extends StatelessWidget {
-  const PlanCard({Key? key, required this.item, required this.index})
-      : super(key: key);
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:liftstyle/models/vmodel/Subscription.dart';
+
+import 'package:liftstyle/models/vmodel/login_user_model.dart';
+import 'package:liftstyle/services/shared_services.dart';
+import 'package:liftstyle/services/subscriptions.dart';
+
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:path/path.dart';
+
+class PlanCard extends StatefulWidget {
   final Subscription item;
+
+  final bool isTrainer;
   final int index;
+  const PlanCard(
+      {Key? key,
+      required this.item,
+      required this.index,
+      required this.isTrainer})
+      : super(key: key);
 
   @override
+  _State createState() => _State();
+}
+
+class _State extends State<PlanCard> {
+  File? file;
+
+  String? fileurl;
+  @override
   Widget build(BuildContext context) {
+    final filename = file != null ? basename(file!.path) : 'No file selected';
+    final user = Provider.of<loginModel>(context);
+    final users = Provider.of<List<loginModel>>(context);
+
+    print("CUSTOMER IDs -9999999999: " +
+        users!.length.toString() +
+        "ITEM CID: --=" +
+        widget.item.customerid.toString() +
+        " NNAMMED ===" +
+        users!
+            .firstWhere((element) => element.uid == widget.item.customerid)
+            .FullName
+            .toString() +
+        "\n *********************************" +
+        widget.item.planurl.toString());
     return GestureDetector(
       onTap: () {
         /*
@@ -31,7 +65,7 @@ class PlanCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        height: 130.0,
+        height: 145.0,
         margin: EdgeInsets.symmetric(
           vertical: 12.0,
           horizontal: 24.0,
@@ -42,16 +76,67 @@ class PlanCard extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: Column(children: [
                   ListTile(
-                    title: Text("Plan_" + index.toString()),
+                    /* leading: Image.network(
+                      users!
+                          .firstWhere(
+                              (element) => element.uid == item.customerid)
+                          .img
+                          .toString(),
+                    ),*/
+
+                    subtitle: (widget.isTrainer == true
+                        ? Text("Age: " +
+                            users!
+                                .firstWhere((element) =>
+                                    element.uid == widget.item.customerid)
+                                .Age
+                                .toString() +
+                            " | Wight: " +
+                            users!
+                                .firstWhere((element) =>
+                                    element.uid == widget.item.customerid)
+                                .wight
+                                .toString() +
+                            " | length: " +
+                            users!
+                                .firstWhere((element) =>
+                                    element.uid == widget.item.customerid)
+                                .length
+                                .toString())
+                        : null),
+                    title: (widget.isTrainer == true
+                        ? Text("NAME: " +
+                            users!
+                                .firstWhere((element) =>
+                                    element.uid == widget.item.customerid)
+                                .FullName
+                                .toString())
+                        : Text("Plan_" +
+                            widget.index.toString() +
+                            " By Trainer: " +
+                            users!
+                                .firstWhere((element) =>
+                                    element.uid == widget.item.trainerid)
+                                .FullName
+                                .toString())),
                   ),
                   ButtonBar(
                     children: <Widget>[
-                      RaisedButton(
-                        child: const Text('Doownload plan'),
-                        onPressed: () async {
-                          await _launchInBrowser(item.planurl.toString());
-                        },
-                      )
+                      if (widget.item.planurl!.isNotEmpty ||
+                          widget.item.planurl != '')
+                        RaisedButton(
+                          child: const Text('Doownload plan'),
+                          onPressed: () async {
+                            await _launchInBrowser(
+                                widget.item.planurl.toString());
+                          },
+                        ),
+                      if (widget.isTrainer)
+                        RaisedButton(
+                          color: Colors.red,
+                          onPressed: () async => selectFile(),
+                          child: const Text("upload a new plan"),
+                        )
                     ],
                   )
                 ])),
@@ -87,48 +172,57 @@ class PlanCard extends StatelessWidget {
     );
   }
 
-/* Card buildCard(String title, String details, String price, String url) {
-    var heading = '\$';
-    var subheading = '2 bed, 1 bath, 1300 sqft';
-    var cardImage = NetworkImage(url);
-    var supportingText =
-        'Beautiful home to rent, recently refurbished with modern appliances...';
-    return Card(
+  Widget _fileSelectButton() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      width: double.infinity,
+      child: RaisedButton(
         elevation: 4.0,
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(title),
-              subtitle: Text(details),
-              trailing: Icon(Icons.favorite_outline),
-            ),
-            Container(
-              height: 200.0,
-              child: Ink.image(
-                image: cardImage,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              alignment: Alignment.centerLeft,
-              child: Text(details),
-            ),
-            ButtonBar(
-              children: [
-                TextButton(
-                  child: const Text('CONTACT AGENT'),
-                  onPressed: () {/* ... */},
-                ),
-                TextButton(
-                  child: const Text('LEARN MORE'),
-                  onPressed: () {/* ... */},
-                )
-              ],
-            )
-          ],
-        ));
-  }*/
+        onPressed: () async => selectFile(),
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        color: Colors.deepPurple,
+        child: Text(
+          'Change My Image',
+          style: TextStyle(
+            color: Colors.white,
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future selectFile() async {
+    print("choose image btn clicked");
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() => file = File(path));
+    await _uploadimage();
+    await SubscriptionServices().updateSubscription(Subscription(
+        customerid: widget.item.customerid,
+        trainerid: widget.item.trainerid,
+        planurl: fileurl,
+        active: true));
+  }
+
+  Future _uploadimage() async {
+    if (file == null) return;
+
+    final filename = basename(file!.path);
+    final dest = 'plan$filename';
+    var item = await SharedServices.uploadUserImage(dest, file!);
+    print(item.toString());
+    setState(() {
+      fileurl = item;
+    });
+  }
 
   Future<void> _launchInBrowser(String url) async {
     if (!await launch(

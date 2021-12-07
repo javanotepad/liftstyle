@@ -346,12 +346,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: Text(' Ops! Login Failed'),
                   content: Text('${item.msg}')));
         }
-        if (item.uid != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UserMainPage("Home")),
-          );
-        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserMainPage("Home")),
+        );
       }
 
       // print("email : " + item.email! + " -- psd : " + item.password!);
