@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/cart.dart';
+import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/services/paypalServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -8,7 +9,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PaypalPayment extends StatefulWidget {
   final Function onFinish;
   final Cart cart;
-  PaypalPayment({required this.onFinish, required this.cart});
+  final loginModel user;
+  PaypalPayment(
+      {required this.onFinish, required this.cart, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +30,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
   // PaypalPaymentState({required this.totalAmount, required this.customerName});
   // you can change default currency according to your need
   Map<dynamic, dynamic> defaultCurrency = {
-    "symbol": "SR ",
+    "symbol": "USD ",
     "decimalDigits": 2,
     "symbolBeforeTheNumber": true,
     "currency": "USD"
@@ -74,9 +77,9 @@ class PaypalPaymentState extends State<PaypalPayment> {
   }
 
   // item name, price and quantity
-  String itemName = 'iPhone X';
-  String itemPrice = '1.99';
-  int quantity = 1;
+  // String itemName = 'iPhone X';
+  // String itemPrice = '1.99';
+  //int quantity = 1;
 
   Map<String, dynamic> getOrderParams() {
     List items = [];
@@ -84,7 +87,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
       items.add({
         "name": widget.cart.basketItems[i].title,
         "quantity": 1,
-        "price": widget.cart.basketItems[i].price,
+        "price": (widget.cart.basketItems[i].price / 3.75), // to convert to USD
         "currency": defaultCurrency["currency"]
       });
     }
@@ -94,8 +97,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
     String subTotalAmount = widget.cart.totalPrice.toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
-    String userFirstName = 'Gulshan';
-    String userLastName = 'Yadav';
+    String userFirstName = widget.user.FullName.toString();
+    String userLastName = '';
     String addressCity = 'KSA';
     String addressStreet = 'KSA';
     String addressZipCode = '110014';
@@ -168,7 +171,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
                     .executePayment(executeUrl, payerID, accessToken)
                     .then((id) {
                   widget.onFinish(id);
-                  //Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 });
               } else {
                 Navigator.of(context).pop();

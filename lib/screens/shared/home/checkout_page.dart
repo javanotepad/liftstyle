@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liftstyle/models/vmodel/cart.dart';
+import 'package:liftstyle/models/vmodel/login_user_model.dart';
 import 'package:liftstyle/screens/widgets/custom_action_bar.dart';
 import 'package:liftstyle/utilities/constants.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String? _orderId;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<loginModel>(context);
     return Consumer<Cart>(
       builder: (context, cart, child) {
         return Scaffold(
@@ -50,7 +52,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           if (cart.basketItems.isNotEmpty)
             GestureDetector(
               onTap: () async {
-                await _checkOutAction(context, cart);
+                await _checkOutAction(context, cart, user);
                 showOrderDialog("_orderId", context, cart);
               },
               child: Container(
@@ -109,17 +111,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
         );
       },
     );
-    cart.removeAll();
   }
 
-  Future _checkOutAction(BuildContext context, Cart cart) async {
+  Future _checkOutAction(
+      BuildContext context, Cart cart, loginModel user) async {
     String id = "";
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PaypalPayment(
               cart: cart,
+              user: user,
               onFinish: (number) {
                 // payment done
                 if (number != null) {
+                  cart.removeAll();
                   id = number;
                   print('order id: ' + id);
                   return number;
