@@ -87,18 +87,18 @@ class PaypalPaymentState extends State<PaypalPayment> {
       items.add({
         "name": widget.cart.basketItems[i].title,
         "quantity": 1,
-        "price": (widget.cart.basketItems[i].price / 3.75), // to convert to USD
+        "price": widget.cart.basketItems[i].price, // to convert to USD
         "currency": defaultCurrency["currency"]
       });
     }
 
     // checkout invoice details
-    String totalAmount = widget.cart.totalPrice.toString();
-    String subTotalAmount = widget.cart.totalPrice.toString();
+    String totalAmount = widget.cart.getByDollar().toString();
+    String subTotalAmount = widget.cart.getByDollar().toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
     String userFirstName = widget.user.FullName.toString();
-    String userLastName = '';
+    String userLastName = widget.user.FullName.toString();
     String addressCity = 'KSA';
     String addressStreet = 'KSA';
     String addressZipCode = '110014';
@@ -120,7 +120,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
               "shipping_discount": ((-1.0) * shippingDiscountCost).toString()
             }
           },
-          "description": "The payment transaction description.",
+          "description": "Operation Done By Life style store",
           "payment_options": {
             "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
           },
@@ -148,7 +148,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   @override
   Widget build(BuildContext context) {
-    //  print("CHECK OUT URL" + checkoutUrl!);
+    // print("CHECK OUT URL" + checkoutUrl!);
 
     if (checkoutUrl != null) {
       return Scaffold(

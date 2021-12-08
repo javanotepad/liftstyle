@@ -164,7 +164,7 @@ class _State extends State<UserProfile> {
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500),
                             ),
-                            _saveButton(),
+                            _saveButton(user),
                           ],
                         )),
                   ),
@@ -261,7 +261,7 @@ class _State extends State<UserProfile> {
     });
   }
 
-  Widget _saveButton() {
+  Widget _saveButton(loginModel user) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       width: double.infinity,
@@ -276,7 +276,10 @@ class _State extends State<UserProfile> {
           user_.wight = int.parse(_weight.text.toString());
           user_.Gender = (_gender.toString() == Gender.Male ? true : false);
           user_.img = imgurl;
-
+          user_.phone = user.phone;
+          user_.bio = user.bio;
+          user_.type = user.type;
+          user_.isAdmin = user.isAdmin;
           UserService(uid: uid!).updateUserProfile(user_);
           setState(() {
             showupdateBtn = !showupdateBtn;

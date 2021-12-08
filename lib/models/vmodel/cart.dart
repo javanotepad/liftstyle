@@ -13,6 +13,10 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
+  double getByDollar() {
+    return _totalPrice / 3.75;
+  }
+
   void removeAll() {
     _items.clear();
     notifyListeners();

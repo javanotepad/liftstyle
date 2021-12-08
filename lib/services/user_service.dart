@@ -32,7 +32,9 @@ class UserService {
       'weight': user.wight,
       'img': user.img,
       'bio': user.bio,
-      'type': user.type
+      'type': user.type,
+      'isAdmin': user.isAdmin,
+      'phone': user.phone
     });
   }
 }

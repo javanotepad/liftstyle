@@ -32,7 +32,7 @@ class CustomActionBar extends StatelessWidget {
 
     print("USERS == " + users.length.toString());
 
-    var user_ = users!.where((element) => element.uid == user.uid).first;
+    var user_ = users.where((element) => element.uid == user.uid).first;
     if (user_.isAdmin == true) {
       print("Current USER IS Admin");
     }
