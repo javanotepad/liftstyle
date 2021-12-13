@@ -7,6 +7,8 @@ import 'package:liftstyle/screens/shared/home/mainpage.dart';
 import 'package:liftstyle/services/auth_service.dart';
 import 'package:liftstyle/utilities/constants.dart';
 
+import 'forgettenPassword.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -104,7 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForgotPassword()),
+        ),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
@@ -352,7 +357,11 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => UserMainPage("Home")),
         );
       }
-
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+              title: Text(' Ops! Login Failed'),
+              content: Text('User credentials not correct!')));
       // print("email : " + item.email! + " -- psd : " + item.password!);
     } else {
       print("Not Valid");
