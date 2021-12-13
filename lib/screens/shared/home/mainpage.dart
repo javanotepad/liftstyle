@@ -53,28 +53,30 @@ class _UserMainPageState extends State<UserMainPage> {
       print("USER ID 0000: " + user.uid.toString());
       // print("USER COUNT = " + users.length.toString());
       // loginModel us =
-      var user_ = users!.where((element) => element.uid == user.uid).first;
-      // print("user type == " + user_.type.toString());
-      // print("USER TYPE: -------------- " + user.type.toString());
 
-      return StreamProvider<List<product>>.value(
-        value: ProductService().products,
-        //  initialData: ProductService().products,
-        initialData: [],
-        child: Scaffold(
-          drawer: NavDrawer(),
-          body: PageView(
-            controller: _pageController,
-            children: [
-              ProductsPage(),
-              TrainersPage(),
-              if (user_.type == 'customer') PlansPage(),
-              if (user_.type == Trainer) SubscribtionList(),
-            ],
+      var user_ = users.where((element) => element.uid == user.uid).first!;
+      if (user_ != null)
+        // print("user type == " + user_.type.toString());
+        // print("USER TYPE: -------------- " + user.type.toString());
+        return StreamProvider<List<product>>.value(
+          value: ProductService().products,
+          //  initialData: ProductService().products,
+          initialData: [],
+          child: Scaffold(
+            drawer: NavDrawer(),
+            body: PageView(
+              controller: _pageController,
+              children: [
+                ProductsPage(),
+                TrainersPage(),
+                if (user_.type == 'customer') PlansPage(),
+                if (user_.type == Trainer) SubscribtionList(),
+              ],
+            ),
+            bottomNavigationBar: getBottmBar(user_),
           ),
-          bottomNavigationBar: getBottmBar(user_),
-        ),
-      );
+        );
+      return LoginScreen();
     }
   }
 

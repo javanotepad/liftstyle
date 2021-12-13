@@ -39,7 +39,7 @@ class _SubscribtionListState extends State<SubscribtionList> {
                   .toList()),
           CustomActionBar(
             hasBackArrrow: false,
-            showAddButton: true,
+            showAddButton: false,
             title: "Plans",
             hasBackground: false,
             showCart: true,

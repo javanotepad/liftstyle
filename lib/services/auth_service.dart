@@ -103,6 +103,13 @@ class AuthService {
     return Future.sync(() => firebaseAuth_);
   }
 
+  Future RestPassword(String email) async {
+    if (email.isEmpty) {
+      return;
+    }
+    return await this.firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
   Future updateUserProfile(loginModel user) async {
     return await this.userDetails.doc(user.uid).set({
       'age': user.Age,

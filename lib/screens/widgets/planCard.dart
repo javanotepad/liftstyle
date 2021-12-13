@@ -39,11 +39,11 @@ class _State extends State<PlanCard> {
     final users = Provider.of<List<loginModel>>(context);
 
     print("CUSTOMER IDs -9999999999: " +
-        users!.length.toString() +
+        users.length.toString() +
         "ITEM CID: --=" +
         widget.item.customerid.toString() +
         " NNAMMED ===" +
-        users!
+        users
             .firstWhere((element) => element.uid == widget.item.customerid)
             .FullName
             .toString() +
@@ -86,19 +86,19 @@ class _State extends State<PlanCard> {
 
                     subtitle: (widget.isTrainer == true
                         ? Text("Age: " +
-                            users!
+                            users
                                 .firstWhere((element) =>
                                     element.uid == widget.item.customerid)
                                 .Age
                                 .toString() +
                             " | Wight: " +
-                            users!
+                            users
                                 .firstWhere((element) =>
                                     element.uid == widget.item.customerid)
                                 .wight
                                 .toString() +
                             " | length: " +
-                            users!
+                            users
                                 .firstWhere((element) =>
                                     element.uid == widget.item.customerid)
                                 .length
@@ -106,7 +106,7 @@ class _State extends State<PlanCard> {
                         : null),
                     title: (widget.isTrainer == true
                         ? Text("NAME: " +
-                            users!
+                            users
                                 .firstWhere((element) =>
                                     element.uid == widget.item.customerid)
                                 .FullName
@@ -114,7 +114,7 @@ class _State extends State<PlanCard> {
                         : Text("Plan_" +
                             widget.index.toString() +
                             " By Trainer: " +
-                            users!
+                            users
                                 .firstWhere((element) =>
                                     element.uid == widget.item.trainerid)
                                 .FullName
