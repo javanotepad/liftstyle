@@ -356,12 +356,14 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(builder: (context) => UserMainPage("Home")),
         );
+      } else {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                title: Text(' Ops! Login Failed'),
+                content: Text('User credentials not correct!')));
       }
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-              title: Text(' Ops! Login Failed'),
-              content: Text('User credentials not correct!')));
+
       // print("email : " + item.email! + " -- psd : " + item.password!);
     } else {
       print("Not Valid");
