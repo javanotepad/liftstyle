@@ -144,28 +144,31 @@ class _State extends State<UserProfile> {
                           horizontal: 40.0,
                           vertical: 120.0,
                         ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 30),
-                            _buildFullNameTF(_name),
-                            SizedBox(height: 30),
-                            _buildGenderRD(),
-                            SizedBox(height: 10),
-                            _buildAgeTF(_age),
-                            SizedBox(height: 10),
-                            _buildLengthTF(_length),
-                            SizedBox(height: 10),
-                            _buildWeightTF(_weight),
-                            SizedBox(height: 10),
-                            _imageSelectButton(),
-                            SizedBox(height: 8),
-                            Text(
-                              filename,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            _saveButton(user),
-                          ],
+                        child: Form(
+                          key:_form,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 30),
+                              _buildFullNameTF(_name),
+                              SizedBox(height: 30),
+                              _buildGenderRD(),
+                              SizedBox(height: 10),
+                              _buildAgeTF(_age),
+                              SizedBox(height: 10),
+                              _buildLengthTF(_length),
+                              SizedBox(height: 10),
+                              _buildWeightTF(_weight),
+                              SizedBox(height: 10),
+                              _imageSelectButton(),
+                              SizedBox(height: 8),
+                              Text(
+                                filename,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                              _saveButton(user),
+                            ],
+                          ),
                         )),
                   ),
                 CustomActionBar(
@@ -268,6 +271,7 @@ class _State extends State<UserProfile> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
+          if (this._form.currentState!.validate()) {
           final user_ = loginModel();
           user_.uid = uid!;
           user_.FullName = _name.text.toString();
@@ -285,7 +289,7 @@ class _State extends State<UserProfile> {
             showupdateBtn = !showupdateBtn;
             showsaveBtn = !showsaveBtn;
           });
-        },
+        }},
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
