@@ -46,7 +46,7 @@ class _PlansPageState extends State<PlansPage> {
           ),
           CustomActionBar(
             hasBackArrrow: false,
-            showAddButton: true,
+            showAddButton: false,
             title: "Plans",
             hasBackground: false,
             showCart: true,

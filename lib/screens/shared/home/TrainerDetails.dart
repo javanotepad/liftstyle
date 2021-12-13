@@ -84,7 +84,7 @@ class _State extends State<TrainerDetails> {
                     tooltip: 'Contacting Trainer',
                     onPressed: () async {
                       await launch(
-                          "https://wa.me/${widget.Trainer.phone!}?text=Hello");
+                          "https://wa.me/966${widget.Trainer.phone!}?text=Hello");
                     },
                   ),
                 ),

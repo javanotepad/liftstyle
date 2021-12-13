@@ -10,16 +10,16 @@ class UserService {
   final String uid;
   UserService({required this.uid});
   final CollectionReference productsCollection =
-      FirebaseFirestore.instance.collection("products");
+  FirebaseFirestore.instance.collection("products");
   final CollectionReference cartCollection =
-      FirebaseFirestore.instance.collection("cart");
+  FirebaseFirestore.instance.collection("cart");
   final CollectionReference userDetails =
-      FirebaseFirestore.instance.collection("userProfile");
+  FirebaseFirestore.instance.collection("userProfile");
 
   loginModel _getUserModel(QuerySnapshot snapshot) {
     return snapshot.docs
         .map((e) => loginModel.loginResponse(
-            uid, e.get("email").toString(), e.get("img").toString()))
+        uid, e.get("email").toString(), e.get("img").toString()))
         .single;
   }
 
@@ -32,7 +32,9 @@ class UserService {
       'weight': user.wight,
       'img': user.img,
       'bio': user.bio,
-      'type': user.type
+      'type': user.type,
+      'isAdmin': user.isAdmin,
+      'phone': user.phone
     });
   }
 }

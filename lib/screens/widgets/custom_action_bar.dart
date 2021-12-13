@@ -83,7 +83,7 @@ class CustomActionBar extends StatelessWidget {
                 title ?? "Action Bar",
                 style: boldHeading,
               ),
-            if (user_.isAdmin! && showAddButton! == true)
+            if (user_.isAdmin== true && showAddButton! == true)
               GestureDetector(
                 onTap: () => (title == "Trainers"
                     ? moveToAddNewTrainer(context)
