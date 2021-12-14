@@ -25,9 +25,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
   String? executeUrl;
   String? accessToken;
   PaypalServices services = PaypalServices();
-  // double totalAmount;
-  // String customerName;
-  // PaypalPaymentState({required this.totalAmount, required this.customerName});
+
   // you can change default currency according to your need
   Map<dynamic, dynamic> defaultCurrency = {
     "symbol": "USD ",
@@ -55,8 +53,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
             await services.createPaypalPayment(transactions, accessToken);
         if (res != null) {
           setState(() {
-            checkoutUrl = res["approvalUrl"].toString();
-            executeUrl = res["executeUrl"].toString();
+            checkoutUrl = res["approvalUrl"];
+            executeUrl = res["executeUrl"];
           });
         }
       } catch (e) {
@@ -77,34 +75,34 @@ class PaypalPaymentState extends State<PaypalPayment> {
   }
 
   // item name, price and quantity
-  // String itemName = 'iPhone X';
-  // String itemPrice = '1.99';
-  //int quantity = 1;
+  String itemName = 'iPhone X';
+  String itemPrice = '1.99';
+  int quantity = 1;
 
   Map<String, dynamic> getOrderParams() {
     List items = [];
-    for (var i = 0; i < widget.cart.basketItems.length; i++) {
+    for (int i = 0; i < widget.cart.basketItems.length; i++) {
       items.add({
-        "name": widget.cart.basketItems[i].title,
-        "quantity": 1,
-        "price": widget.cart.basketItems[i].price, // to convert to USD
+        "name": widget.cart.basketItems[i].title.toString(),
+        "quantity": quantity,
+        "price": widget.cart.basketItems[i].price.toString(),
         "currency": defaultCurrency["currency"]
       });
     }
 
     // checkout invoice details
-    String totalAmount = widget.cart.getByDollar().toString();
-    String subTotalAmount = widget.cart.getByDollar().toString();
+    String totalAmount = widget.cart.totalPrice.toString();
+    String subTotalAmount = widget.cart.totalPrice.toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
     String userFirstName = widget.user.FullName.toString();
     String userLastName = widget.user.FullName.toString();
     String addressCity = 'KSA';
-    String addressStreet = 'KSA';
-    String addressZipCode = '110014';
-    String addressCountry = 'KSA';
-    String addressState = 'KSA';
-    String addressPhoneNumber = '';
+    String addressStreet = '-';
+    String addressZipCode = '11000';
+    String addressCountry = 'Saudi Arabia';
+    String addressState = 'Riyadh';
+    String addressPhoneNumber = widget.user.phone.toString();
 
     Map<String, dynamic> temp = {
       "intent": "sale",
@@ -120,7 +118,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
               "shipping_discount": ((-1.0) * shippingDiscountCost).toString()
             }
           },
-          "description": "Operation Done By Life style store",
+          "description": "The payment transaction description.",
           "payment_options": {
             "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
           },
@@ -148,7 +146,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   @override
   Widget build(BuildContext context) {
-    // print("CHECK OUT URL" + checkoutUrl!);
+    print(checkoutUrl);
 
     if (checkoutUrl != null) {
       return Scaffold(

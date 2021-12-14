@@ -13,12 +13,16 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  static final String tokenizationKey = 'sandbox_v2gc626t_6qsm2bydh2pzdbv5';
   String? _orderId;
+  String? title;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<loginModel>(context);
     return Consumer<Cart>(
       builder: (context, cart, child) {
+        title =
+            (cart.basketItems.length > 0 ? cart.totalPrice.toString() : null);
         return Scaffold(
             body: Stack(children: [
           cart.basketItems.isNotEmpty
@@ -52,8 +56,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           if (cart.basketItems.isNotEmpty)
             GestureDetector(
               onTap: () async {
-                await _checkOutAction(context, cart, user);
-                showOrderDialog("_orderId", context, cart);
+                await checkOutAction(context, cart, user)
+                    .whenComplete(() => showOrderDialog(context, cart));
               },
               child: Container(
                 height: 78.0,
@@ -75,8 +79,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           CustomActionBar(
             hasTitle: true,
             showAddButton: false,
-            title:
-                "My Cart - Total Cost : " + cart.totalPrice.toString() + " R.S",
+            title: "My Cart " +
+                (title == null ? "" : "- Total Cost : " + title! + " R.S"),
             hasBackground: true,
             showCart: false,
           ),
@@ -85,7 +89,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  void showOrderDialog(String IdNumber, BuildContext context, Cart cart) {
+  void showOrderDialog(BuildContext context, Cart cart) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -98,7 +102,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  'Your Order ID: ' + IdNumber + "\nThank you",
+                  'Your Order ID: ' + _orderId.toString() + "\nThank you",
                   style: regularDarkText,
                 ),
                 ElevatedButton(
@@ -113,9 +117,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  Future _checkOutAction(
+  Future<String?> checkOutAction(
       BuildContext context, Cart cart, loginModel user) async {
-    String id = "";
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PaypalPayment(
               cart: cart,
@@ -124,12 +127,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 // payment done
                 if (number != null) {
                   cart.removeAll();
-                  id = number;
-                  print('order id: ' + id);
+
+                  _orderId = number;
+                  setState() {
+                    _orderId = number;
+                    title = null;
+                  }
+
+                  print('order id: ' + _orderId!);
                   return number;
                 }
               },
             )));
-    print("ORDER ID_ " + id);
+
+    return _orderId;
   }
 }

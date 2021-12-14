@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+final String aboutUs =
+    "The ls application helps you to reach your goal of losing"
+    " weight or enjoying a healthy and ideal body through sports experts and "
+    "providing healthy foods and sports tools that suit you during the period of"
+    " progressing to your goal Ls aims to reach the largest segment of society "
+    "and help them reach their goals";
 final String prd_tmp =
     'https://firebasestorage.googleapis.com/v0/b/lifestyle-fcae0.appspot.com/o/tmp_prd.jpg?alt=media&token=13392d56-ca6b-48de-99c5-8d2685e9971f';
 final String trainer_img_df =

@@ -3,6 +3,8 @@ import 'package:liftstyle/screens/shared/authentication/loginScreen.dart';
 import 'package:liftstyle/screens/shared/home/userProfile.dart';
 import 'package:liftstyle/services/auth_service.dart';
 
+import 'aboutUs.dart';
+
 class NavDrawer extends StatelessWidget {
   final AuthService _authService = AuthService();
   @override
@@ -28,6 +30,17 @@ class NavDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => UserProfile(),
+                  ))
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('About Us'),
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUs(),
                   ))
             },
           ),

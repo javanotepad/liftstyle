@@ -10,8 +10,9 @@ class PaypalServices {
   // change clientId and secret with your own, provided by paypal
   String clientId =
       'Aerp9vd7cn4ZmyBOC8EDSL8mJCla0jMMEfHAS2-qCZsDARye2J0U-_fKDAzD1dC8IOor-GPpfxUzR77r';
+
   String secret =
-      'EEA5dWnAmjCMf2kgwI5DxSNdsaHXojhYiASZ95zQ8G-dOVtXeKAP8Hbv0VmCP9TKMrKlHi-PeZZJffm3';
+      'EJjh-QMCRGazIY5f_3F751XvbHULkwG3TIg9Vk-8mtmI-ky9ZVrtGIO_aP_mWgoqrzv1at4cYW2SKY9p';
 
   // for getting the access token from Paypal
   Future<String?> getAccessToken() async {
@@ -62,6 +63,7 @@ class PaypalServices {
         }
         return null;
       } else {
+        print(body["message"]);
         throw Exception(body["message"]);
       }
     } catch (e) {
